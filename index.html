@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#07100f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23d5fa56' d='M0 0h64L48 64H0z'/%3E%3Ctext x='11' y='47' fill='%230c1411' font-family='Arial' font-size='46' font-weight='900'%3EA%3C/text%3E%3C/svg%3E">
+  <title>APEX / Night Run</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"}}
+  </script>
+</head>
+<body>
+  <main class="game-shell">
+    <canvas id="game" aria-label="3D racing game"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Apex home"><span class="brand-mark">A</span><span>APEX<span class="brand-slash">/</span><small>MOTORSPORT</small></span></a>
+      <div class="event-label"><span class="live-dot"></span><span>NIGHT RUN <b>·</b> COASTAL CIRCUIT</span></div>
+      <button id="soundBtn" class="icon-btn" aria-label="Toggle sound"><span id="soundIcon">♫</span></button>
+    </header>
+
+    <section class="race-hud" aria-live="polite">
+      <div class="race-top">
+        <div class="race-stats">
+          <div class="race-stat"><span class="eyebrow">LAP</span><strong id="lapValue">01<span>/ 03</span></strong></div>
+          <div class="stat-divider"></div>
+          <div class="race-stat position-stat"><span class="eyebrow">POSITION</span><strong id="positionValue">01<span> / 06</span></strong></div>
+        </div>
+        <div class="race-time"><span class="eyebrow">RACE TIME</span><strong id="timeValue">00:00.00</strong></div>
+      </div>
+      <div class="progress-track"><i id="raceProgress"></i></div>
+    </section>
+
+    <div class="right-rail">
+      <div class="minimap-card"><div class="mini-head"><span>TRACK MAP</span><span class="map-live">● LIVE</span></div><canvas id="minimap" width="180" height="180"></canvas></div>
+      <div class="weather-card"><span class="weather-icon">☾</span><span><b>19°</b><small>CLEAR NIGHT</small></span></div>
+    </div>
+
+    <div class="speed-card"><div class="speed-reading"><strong id="speedValue">000</strong><span>KM/H</span></div><div class="speed-meter"><i id="speedMeter"></i></div><div class="gear-row"><span>GEAR</span><b id="gearValue">N</b><span class="boost-label" id="boostLabel">READY</span></div></div>
+
+    <section id="welcome" class="welcome-panel">
+      <div class="welcome-kicker"><span>01</span> THE NIGHT IS YOURS</div>
+      <h1>CHASE<br><em>THE LINE.</em></h1>
+      <p>One circuit. Three laps. No room for second thoughts.</p>
+      <div class="welcome-actions"><button id="startBtn" class="primary-btn">START YOUR ENGINE <span>↗</span></button><span class="key-hint">PRESS <kbd>ENTER</kbd></span></div>
+      <div class="welcome-foot"><span>06 DRIVERS</span><i></i><span>3 LAPS</span><i></i><span>COASTAL CIRCUIT</span></div>
+    </section>
+
+    <section id="garage" class="garage-panel hidden">
+      <div class="garage-heading"><div><span class="eyebrow">YOUR MACHINE</span><h2>CHOOSE YOUR<br><em>LINE.</em></h2></div><button id="closeGarage" class="close-btn" aria-label="Close garage">×</button></div>
+      <div id="carList" class="car-list"></div>
+      <div class="garage-footer"><span id="carTag">V12 · AWD</span><button id="raceBtn" class="primary-btn">TAKE THE GRID <span>↗</span></button></div>
+    </section>
+
+    <div id="countdown" class="countdown hidden">3</div>
+    <div id="finishPanel" class="finish-panel hidden"><span class="eyebrow">CHECKERED FLAG</span><h2 id="finishTitle">RACE COMPLETE</h2><p id="finishCopy"></p><button id="againBtn" class="primary-btn">RACE AGAIN <span>↗</span></button></div>
+
+    <aside class="multiplayer-pill"><span class="online-dot"></span><span id="onlineText">SOLO SESSION</span><button id="roomBtn">JOIN ROOM <b>＋</b></button></aside>
+    <div id="roomModal" class="room-modal hidden"><div class="room-box"><button id="roomClose" class="close-btn">×</button><span class="eyebrow">LOCAL MULTIPLAYER</span><h3>RACE YOUR<br><em>FRIENDS.</em></h3><p>Open this game in another tab on this device. Use the same room code to share the circuit.</p><label for="roomCode">ROOM CODE</label><div class="room-input"><input id="roomCode" maxlength="12" value="NIGHTRUN" autocomplete="off"><button id="connectBtn">CONNECT ↗</button></div><small>Players in the same room appear live on the track. AI racers fill the remaining grid.</small></div></div>
+
+    <footer class="bottom-bar"><div class="controls-hint"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> DRIVE</span><span><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> OR ARROWS</span><span><kbd>SPACE</kbd> BOOST</span></div><div class="mobile-controls"><button data-control="left">‹</button><button data-control="brake">−</button><button data-control="boost">⚡</button><button data-control="gas">+</button><button data-control="right">›</button></div><div class="bottom-credit">SIMULATION <span>·</span> 60 FPS MODE</div></footer>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
